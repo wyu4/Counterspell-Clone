@@ -20,6 +20,7 @@ public class AccurateImageIcon extends ImageIcon {
 
     private boolean xMirrored, yMirrored;
     private PaintMode mode;
+    private float alpha;
 
     /**
      * Create an empty AccurateImageIcon object.
@@ -46,6 +47,7 @@ public class AccurateImageIcon extends ImageIcon {
         this.mode = mode;
         xMirrored = false;
         yMirrored = false;
+        alpha = 1f;
     }
 
     /**
@@ -84,6 +86,10 @@ public class AccurateImageIcon extends ImageIcon {
         this.mode = mode;
     }
 
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
+    }
+
     /**
      * Get the image's mirrored state
      * @return {@code true} if the image should be mirrored on the X axis,
@@ -100,6 +106,10 @@ public class AccurateImageIcon extends ImageIcon {
      */
     public boolean getYMirrored() {
         return yMirrored;
+    }
+
+    public float getAlpha() {
+        return alpha;
     }
 
     /**
@@ -119,6 +129,8 @@ public class AccurateImageIcon extends ImageIcon {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 
         // Mirror the image if requested
         g2d.translate(
