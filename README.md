@@ -1,2 +1,2 @@
-# CounterspellGame
+# Counterspell Ottawa
 Description
