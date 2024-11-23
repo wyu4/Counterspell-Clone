@@ -1,4 +1,4 @@
-package GUIClasses.Managers;
+package GUIClasses;
 
 import DataTypes.FloatCoordinate;
 import GUIClasses.Interfaces.AccurateContainer;

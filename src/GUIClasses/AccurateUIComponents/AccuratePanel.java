@@ -3,7 +3,7 @@ package GUIClasses.AccurateUIComponents;
 import DataTypes.FloatCoordinate;
 import GUIClasses.Interfaces.AccurateContainer;
 import GUIClasses.Interfaces.SuperContainerMethods;
-import GUIClasses.Managers.AccurateContainerManager;
+import GUIClasses.AccurateContainerManager;
 
 import javax.swing.*;
 import java.awt.*;
