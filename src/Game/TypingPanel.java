@@ -8,8 +8,6 @@ import ResourceClasses.ResourcesManager;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TypingPanel extends AccuratePanel {
     private final AccurateLabel textLabel;

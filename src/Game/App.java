@@ -20,6 +20,7 @@ public class App implements ActionListener {
 
     private final MainFrame mainFrame;
     private final SplashScreen splashScreen;
+    private final Menu menu;
     private final Timer runtime;
 
     private Long lastTick;
@@ -32,6 +33,7 @@ public class App implements ActionListener {
         appState = AppState.SPLASH_SCREEN;
         mainFrame = new MainFrame();
         splashScreen = new SplashScreen();
+        menu = new Menu();
         runtime = new Timer(1, this);
     }
 
@@ -46,7 +48,10 @@ public class App implements ActionListener {
             System.exit(1);
         }
 
+        menu.setVisible(false);
+
         mainFrame.add(splashScreen);
+        mainFrame.add(menu);
         mainFrame.setVisible(true);
 
         runtime.start();
@@ -55,6 +60,9 @@ public class App implements ActionListener {
         Thread.sleep(4000);
 
         splashScreen.setShouldShow(false);
+
+        Thread.sleep(2000);
+        menu.setVisible(true);
     }
 
     /**
@@ -86,6 +94,10 @@ public class App implements ActionListener {
         splashScreen.setLocation(0, 0);
         splashScreen.setSize(screenSize);
         splashScreen.tick(timeMod);
+
+        menu.setLocation(0, 0);
+        menu.setSize(screenSize);
+        menu.tick(timeMod);
 
         mainFrame.repaint();
     }

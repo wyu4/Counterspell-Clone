@@ -67,6 +67,7 @@ public class ResourcesManager {
             case Counterspell_png -> RESOURCE_DIR + "\\CounterspellLogo.png";
             case DroidSansMono_ttf -> RESOURCE_DIR + "\\DroidSansMono.ttf";
             case RobotoMono_ttf -> RESOURCE_DIR + "\\RobotoMono-VariableFont_wght.ttf";
+            case BungeeSpice_ttf -> RESOURCE_DIR + "\\BungeeSpice-Regular.ttf";
         });
     }
 
