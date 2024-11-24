@@ -1,12 +1,14 @@
 package Game;
 
 import DataTypes.FloatCoordinate;
+import GUIClasses.AccurateUIComponents.AccurateButton;
 import GUIClasses.AccurateUIComponents.AccurateImageIcon;
 import GUIClasses.AccurateUIComponents.AccurateLabel;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
 import GUIClasses.AnimatedTextLabel;
 
 import javax.swing.Icon;
+import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class Scene extends AccuratePanel {
     private final TypingPanel typingPanel;
     private final AccuratePanel characterPanel;
     private final AccurateLabel backgroundLabel;
+    private final AccurateButton backButton;
     private String currentCue;
 
     public Scene() {
@@ -32,6 +35,7 @@ public class Scene extends AccuratePanel {
         dialoguePanel = new DialoguePanel();
         backgroundLabel = new AccurateLabel();
         typingPanel = new TypingPanel();
+        backButton = new AccurateButton();
         nextRequested = false;
         processDialogues = true;
         processTyping = false;
@@ -42,10 +46,18 @@ public class Scene extends AccuratePanel {
         typingPanel.setAnchorPoint(0.5f, 1f);
         typingPanel.setVisible(false);
 
+        backButton.setAnchorPoint(0.1f, 0.1f);
+        backButton.setBackground(new Color(255, 255, 255));
+
+        add(backButton);
         add(dialoguePanel);
         add(typingPanel);
         add(characterPanel);
         add(backgroundLabel);
+    }
+
+    public JButton getBackButton() {
+        return backButton;
     }
 
     public void addDialogue(String speaker, String content) {
@@ -160,5 +172,8 @@ public class Scene extends AccuratePanel {
         typingPanel.setLocation(screenSize.getX() * 0.5f, screenSize.getY());
         typingPanel.setSize(screenSize.getX(), screenSize.getY() * 0.25f);
         typingPanel.tick(timeMod);
+
+        backButton.setLocation(screenSize.getX() * 0.1f, screenSize.getY() * 0.1f);
+        backButton.setSize(screenSize.getX() * 0.05f,screenSize.getY() * 0.05f);
     }
 }

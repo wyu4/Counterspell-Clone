@@ -54,8 +54,8 @@ public class Tutorial extends Scene {
             case G1: {
                 setDialoguePanelShowing(false);
                 setTypingPanelShowing(true);
-                setTypePrompt("Hi");
-//                setTypePrompt("Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.");
+//                setTypePrompt("Hi");
+                setTypePrompt("Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.");
                 processInputs(false, true);
                 setTypingPanelOnEmpty(
                         () -> {

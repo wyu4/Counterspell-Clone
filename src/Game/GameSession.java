@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 public class GameSession implements ActionListener, NativeKeyListener {
     enum AppState {
         SPLASH_SCREEN,
+        MENU,
         CUTSCENE
     }
 
@@ -69,6 +70,7 @@ public class GameSession implements ActionListener, NativeKeyListener {
         splashScreen.setShouldShow(false);
 
         Thread.sleep(2000);
+        appState = AppState.MENU;
         menu.setVisible(true);
     }
 
@@ -136,9 +138,19 @@ public class GameSession implements ActionListener, NativeKeyListener {
             System.out.println("Play requested from menu.");
             menu.setVisible(false);
             currentScene = new Tutorial();
+            currentScene.getBackButton().addActionListener(this);
             mainFrame.add(currentScene);
             mainFrame.revalidate();
             appState = AppState.CUTSCENE;
+
+        } else if (currentScene != null && e.getSource().equals(currentScene.getBackButton())) {
+            appState = AppState.MENU;
+            menu.setVisible(true);
+            currentScene.setVisible(false);
+            currentScene.processInputs(false, false);
+            mainFrame.remove(currentScene);
+            currentScene = null;
+            System.out.println("Returned to menu.");
         }
     }
 }
