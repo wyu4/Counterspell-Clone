@@ -13,13 +13,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Menu extends AccuratePanel {
-    private final AccurateLabel titleLabel;
+    private final AccurateLabel titleLabel, background;
     private final AccurateButton playButton;
     private final AccurateButton closeButton;
     private final Font titleFont;
-    private float titleFontSize;
+    private float titleFontSize, backgroundFontSize;
 
     public Menu() {
         setBackground(new Color(0, 0, 0));
@@ -33,6 +34,13 @@ public class Menu extends AccuratePanel {
         titleLabel.setAnchorPoint(0.5f, 0.1f);
         titleLabel.setFont(titleFont);
 
+        background = new AccurateLabel("Background");
+        background.setText("");
+        background.setHorizontalAlignment(SwingConstants.CENTER);
+        background.setVerticalAlignment(SwingConstants.CENTER);
+        background.setForeground(new Color(51, 51, 51));
+        background.setWrapped(true);
+
         closeButton = new AccurateButton("CloseButton");
         closeButton.setBackground(new Color(255, 0, 0));
         closeButton.setAnchorPoint(0.1f, 0.1f);
@@ -42,10 +50,12 @@ public class Menu extends AccuratePanel {
         playButton.setAnchorPoint(0.5f, 0.9f);
 
         titleFontSize = 0f;
+        backgroundFontSize = 0f;
 
         add(titleLabel);
         add(playButton);
         add(closeButton);
+        add(background);
     }
 
     public void tick(float timeMod) {
@@ -61,6 +71,9 @@ public class Menu extends AccuratePanel {
 
         playButton.setLocation(screenSize.getX() * 0.5f, screenSize.getY() * 0.9f);
         playButton.setSize(screenSize.getX() * 0.25f,screenSize.getY() * 0.1f);
+
+        background.setLocation(0, 0);
+        background.setSize(screenSize);
     }
 
     public JButton getCloseButton() {
