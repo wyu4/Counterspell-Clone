@@ -1,6 +1,17 @@
 package Game.ScenePresets;
 
+import DataTypes.FloatCoordinate;
+import GUIClasses.AccurateUIComponents.AccurateLabel;
+import GUIClasses.AccurateUIComponents.AccuratePanel;
 import Game.Scene;
+import ResourceClasses.ResourceEnum;
+import ResourceClasses.ResourcesManager;
+
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Tutorial extends Scene {
     private static final String G1 = "QUESTIONING1";
@@ -9,15 +20,25 @@ public class Tutorial extends Scene {
     private static final String END_CUTSCENE = "END_CUTSCENE";
     private static final String END = "END";
 
-    private static final String PROMPT_1 = "Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.";
-    private static final String PROMPT_2 = "The human body maintains a stable internal temperature (~37C) through homeostasis, even in changing external conditions.";
-    private static final String PROMPT_3 = "CRISPR-Cas9 is a revolutionary gene-editing tool adapted from the immune system of prokaryotes. It enables precise modifications to DNA sequences.";
+    private static final String PROMPT_1 = "hi";//"Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.";
+    private static final String PROMPT_2 = "hi";//"The human body maintains a stable internal temperature (~37C) through homeostasis, even in changing external conditions.";
+    private static final String PROMPT_3 = "hi";//"CRISPR-Cas9 is a revolutionary gene-editing tool adapted from the immune system of prokaryotes. It enables precise modifications to DNA sequences.";
 
     private String currentPlaying;
+    private final FadeToWhiteTitleScene outro;
 
     public Tutorial() {
         super();
         currentPlaying = "";
+        outro = new FadeToWhiteTitleScene();
+        outro.onEnd(
+                () -> {
+                    processInputs(true, false);
+                    requestNextDialogue();
+                }
+        );
+
+        add(outro);
 
         super.addDialogue("???", "Welcome.");
         super.addDialogue("???", "Commencing cloning protocol…");
@@ -52,6 +73,10 @@ public class Tutorial extends Scene {
     @Override
     public void tick(float timeMod) {
         super.tick(timeMod);
+
+        outro.setLocation(0, 0);
+        outro.setSize(getAccurateSize());
+        outro.tick(timeMod);
 
         String cue = getCurrentCue();
         if (cue == null) {
@@ -112,12 +137,88 @@ public class Tutorial extends Scene {
                 break;
             }
             case END_CUTSCENE: {
-
+                processInputs(false, false);
+                setDialoguePanelShowing(false);
+                setTypingPanelShowing(false);
+                outro.start();
+                break;
             }
             case END: {
                 processInputs(false, false);
                 runOnEnd();
+                break;
             }
+        }
+    }
+}
+
+class FadeToWhiteTitleScene extends AccuratePanel {
+    private Runnable onEnd;
+    private final AccurateLabel titleLabel;
+    private float titleFontSize;
+    private boolean triggered;
+    private Long stallStart;
+
+    public FadeToWhiteTitleScene() {
+        super("FadeToWhite");
+
+        titleFontSize = 0f;
+        triggered = false;
+
+        setBackground(new Color(0, 0, 0));
+
+        titleLabel = new AccurateLabel("Title");
+        titleLabel.setText("CLONE");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(0, 0, 0));
+        titleLabel.setAnchorPoint(0.5f, 0.5f);
+
+        add(titleLabel);
+    }
+
+    public void start() {
+        triggered = true;
+    }
+
+    public void onEnd(Runnable task) {
+        onEnd = task;
+    }
+
+    public void tick(float timeMod) {
+        if (!triggered) {
+            return;
+        }
+
+        FloatCoordinate screenSize = getAccurateSize();
+
+        Color oldColor = getBackground();
+        System.out.println(oldColor);
+        setBackground(
+                new Color(
+                       Math.clamp((oldColor.getRed()/255f) + (0.00015f*timeMod), 0, 1f),
+                       Math.clamp((oldColor.getGreen()/255f) + (0.00015f*timeMod), 0, 1f),
+                       Math.clamp((oldColor.getBlue()/255f) + (0.00015f*timeMod), 0, 1f)
+                )
+        );
+        if (oldColor.getRed() >= 255 && oldColor.getGreen() >= 255 && oldColor.getBlue() >= 255) {
+            if (stallStart == null) {
+                stallStart = System.currentTimeMillis();
+            } else {
+                if (System.currentTimeMillis() - stallStart >= 2000) {
+                    triggered = false;
+                    onEnd.run();
+                }
+            }
+
+        }
+
+        titleLabel.setLocation(screenSize.multiply(0.5f));
+        titleLabel.setSize(screenSize.getX(), screenSize.getY()*0.25f);
+
+        float newTitleFontSize = titleLabel.getHeight()*0.9f;
+        if (titleFontSize != newTitleFontSize) {
+            titleFontSize = newTitleFontSize;
+            titleLabel.setFont(ResourcesManager.getAsFont(ResourceEnum.BungeeSpice_ttf).deriveFont(newTitleFontSize));
         }
     }
 }

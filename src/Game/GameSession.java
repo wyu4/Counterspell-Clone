@@ -134,7 +134,7 @@ public class GameSession implements ActionListener, NativeKeyListener {
             }
             long currentTime = System.currentTimeMillis();
             float delta = currentTime - lastTick;
-            float timeMod = delta / runtime.getDelay() / 1000f;
+            float timeMod = delta / runtime.getDelay();
 
             mainFrame.setLocation(0, 0);
             mainFrame.setSize((float) toolkit.getScreenSize().getWidth(), (float) toolkit.getScreenSize().getHeight());
@@ -166,6 +166,8 @@ public class GameSession implements ActionListener, NativeKeyListener {
                 currentScene.setSize(screenSize);
                 currentScene.tick(timeMod);
             }
+
+            lastTick = currentTime;
 
             mainFrame.repaint();
         } else if (e.getSource().equals(menu.getCloseButton())) {
