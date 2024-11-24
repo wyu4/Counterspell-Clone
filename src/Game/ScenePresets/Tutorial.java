@@ -195,9 +195,9 @@ class FadeToWhiteTitleScene extends AccuratePanel {
         System.out.println(oldColor);
         setBackground(
                 new Color(
-                       Math.clamp((oldColor.getRed()/255f) + (0.0002f*timeMod), 0, 1f),
-                       Math.clamp((oldColor.getGreen()/255f) + (0.0002f*timeMod), 0, 1f),
-                       Math.clamp((oldColor.getBlue()/255f) + (0.0002f*timeMod), 0, 1f)
+                       Math.clamp((oldColor.getRed()/255f) + (0.0005f*timeMod), 0, 1f),
+                       Math.clamp((oldColor.getGreen()/255f) + (0.0005f*timeMod), 0, 1f),
+                       Math.clamp((oldColor.getBlue()/255f) + (0.0005f*timeMod), 0, 1f)
                 )
         );
         if (oldColor.getRed() >= 255 && oldColor.getGreen() >= 255 && oldColor.getBlue() >= 255) {

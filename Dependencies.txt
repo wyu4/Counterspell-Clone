@@ -1,3 +1,4 @@
 Here are links to download the necessary external libraries:
 
 JNativeHook v2.2.2 - https://github.com/kwhat/jnativehook
+JavaFX - https://gluonhq.com/products/javafx/

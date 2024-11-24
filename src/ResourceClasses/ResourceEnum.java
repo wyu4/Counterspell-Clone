@@ -8,5 +8,6 @@ public enum ResourceEnum {
     RobotoMono_ttf,
     BungeeSpice_ttf,
     Anne_Sprite_png,
-    Clone_Sprite_png
+    Clone_Sprite_png,
+    Scene1_Intro_mp4
 }

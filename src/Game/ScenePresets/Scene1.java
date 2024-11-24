@@ -3,12 +3,17 @@ package Game.ScenePresets;
 import DataTypes.FloatCoordinate;
 import GUIClasses.AccurateUIComponents.AccurateImageIcon;
 import GUIClasses.AccurateUIComponents.AccurateLabel;
+import GUIClasses.VideoPanel;
 import Game.Scene;
 import ResourceClasses.ResourceEnum;
 import ResourceClasses.ResourcesManager;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Scene1 extends Scene {
     private static final String INTRO = "INTRO";
@@ -23,9 +28,22 @@ public class Scene1 extends Scene {
 
     private String currentPlaying;
     private final AccurateLabel anne, clone;
+    private VideoPanel intro;
+    private MediaPlayer introPlayer;
 
     public Scene1() {
         super();
+
+        Media introMedia = ResourcesManager.getAsMedia(ResourceEnum.Scene1_Intro_mp4, "mp4");
+//        Media introMedia = new Media(new File("Resources/Scene1Intro.mp4").toURI().toString());
+
+        if (introMedia != null) {
+            introPlayer = new MediaPlayer(introMedia);
+            introPlayer.setRate(0.5f);
+            intro = new VideoPanel(introPlayer);
+            intro.setVisible(false);
+            addCharacter(intro);
+        }
 
         setCharacterBackground(new Color(255, 255, 255));
 
@@ -77,6 +95,14 @@ public class Scene1 extends Scene {
         clone.setLocation(screenSize.getX() * 0.75f, screenSize.getY());
         clone.setSize(anne.getAccurateSize());
 
+        if (intro != null) {
+            intro.setLocation(0, 0);
+            intro.setSize(screenSize.toDimension());
+            if (intro.isVisible()) {
+                intro.tick(timeMod);
+            }
+        }
+
         String cue = getCurrentCue();
         if (cue == null) {
             return;
@@ -87,11 +113,28 @@ public class Scene1 extends Scene {
         currentPlaying = cue;
         switch (cue) {
             case INTRO: {
-//                setDialoguePanelShowing(false);
-//                setTypingPanelShowing(false);
-//                processInputs(false, false);
-                requestNextDialogue();
-
+                if (intro != null) {
+                    anne.setVisible(false);
+                    clone.setVisible(false);
+                    intro.setVisible(true);
+                    introPlayer.play();
+                    setDialoguePanelShowing(false);
+                    setTypingPanelShowing(false);
+                    processInputs(false, false);
+                    introPlayer.setOnEndOfMedia(() -> {
+                        introPlayer.stop();
+                        intro.setVisible(false);
+                        processInputs(true, false);
+                        setDialoguePanelShowing(true);
+                        setTypingPanelShowing(false);
+                        anne.setVisible(true);
+                        clone.setVisible(true);
+                        requestNextDialogue();
+                    });
+                } else {
+                    requestNextDialogue();
+                }
+                break;
             }
             case MC1: {
                 setDialoguePanelShowing(false);

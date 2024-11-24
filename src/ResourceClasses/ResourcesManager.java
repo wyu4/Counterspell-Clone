@@ -1,10 +1,13 @@
 package ResourceClasses;
 
+import javafx.scene.media.Media;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -70,6 +73,7 @@ public class ResourcesManager {
             case BungeeSpice_ttf -> RESOURCE_DIR + "\\BungeeSpice-Regular.ttf";
             case Anne_Sprite_png -> RESOURCE_DIR + "\\Anne_Sprite.png";
             case Clone_Sprite_png -> RESOURCE_DIR + "\\Clone_Sprite.png";
+            case Scene1_Intro_mp4 -> RESOURCE_DIR + "\\Scene1Intro.mp4";
         });
     }
 
@@ -129,6 +133,19 @@ public class ResourcesManager {
         }
 
         return result;
+    }
+
+    public static Media getAsMedia(ResourceEnum e, String extension) {
+        byte[] bytes = getAsByteData(e);
+
+        try {
+            var file = Files.createTempFile("jfxmedia", "." + extension);
+            Files.write(file, bytes, StandardOpenOption.WRITE);
+            return new Media(file.toUri().toString());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
     public static void main(String[] args) {

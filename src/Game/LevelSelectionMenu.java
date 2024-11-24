@@ -38,7 +38,6 @@ public class LevelSelectionMenu extends AccuratePanel {
 //        buttonsPanel.add(new JPanel());
 
         for (int i = 0; i < 8; i++) {
-            System.out.println(i);
             AccurateButton select = new AccurateButton("LevelSelect" + i);
             select.setBackground(new Color(255, 255, 255, 0));
             select.setForeground(new Color(255, 255, 255));
