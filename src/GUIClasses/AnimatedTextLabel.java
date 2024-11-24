@@ -32,7 +32,6 @@ public class AnimatedTextLabel extends AccurateLabel {
     }
 
     public void tick(float timeMod) {
-        System.out.println("Yo");
         if (goalText == null || displayedText == null || currentAttemptedText == null) {
             return;
         }

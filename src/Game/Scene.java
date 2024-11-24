@@ -1,8 +1,11 @@
 package Game;
 
+import DataTypes.FloatCoordinate;
 import GUIClasses.AccurateUIComponents.AccurateLabel;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
+import GUIClasses.AnimatedTextLabel;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,24 +39,6 @@ public class Scene extends AccuratePanel {
 
     public void addCharacter(AccurateLabel character) {
         characters.put(character.getName(), character);
-    }
-
-    public void tick(float timeMod) {
-
-    }
-}
-
-class DialoguePanel extends AccuratePanel {
-    private final AccurateLabel nameLabel, contentLabel;
-
-    public DialoguePanel() {
-        super("DialoguePanel");
-        nameLabel = new AccurateLabel("Name");
-        contentLabel = new AccurateLabel("Content");
-    }
-
-    public void setData(String name, String data) {
-
     }
 
     public void tick(float timeMod) {
