@@ -6,7 +6,7 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import java.awt.Color;
 
-public class MainFrame extends AccurateFrame implements NativeKeyListener {
+public class MainFrame extends AccurateFrame {
     public MainFrame() {
         super("MainFrame");
         setUndecorated(true);
@@ -14,12 +14,6 @@ public class MainFrame extends AccurateFrame implements NativeKeyListener {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setBackground(new Color(0, 0, 0));
     }
-
-    public void nativeKeyTyped(NativeKeyEvent nativeEvent) {}
-
-    public void nativeKeyPressed(NativeKeyEvent nativeEvent) {}
-
-    public void nativeKeyReleased(NativeKeyEvent nativeEvent) {}
 
     /**
      * Processes a tick event.

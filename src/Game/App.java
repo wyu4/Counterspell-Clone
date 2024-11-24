@@ -12,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class App implements ActionListener {
+    enum AppState {
+        SPLASH_SCREEN
+    }
+
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
 
     private final MainFrame mainFrame;
@@ -19,11 +23,13 @@ public class App implements ActionListener {
     private final Timer runtime;
 
     private Long lastTick;
+    private AppState appState;
 
     /**
      * Start a new session
      */
     public App() {
+        appState = AppState.SPLASH_SCREEN;
         mainFrame = new MainFrame();
         splashScreen = new SplashScreen();
         runtime = new Timer(1, this);
@@ -40,17 +46,15 @@ public class App implements ActionListener {
             System.exit(1);
         }
 
-        GlobalScreen.addNativeKeyListener(mainFrame);
-
         mainFrame.add(splashScreen);
         mainFrame.setVisible(true);
 
         runtime.start();
+        splashScreen.setShouldShow(true);
 
         Thread.sleep(4000);
 
         splashScreen.setShouldShow(false);
-        System.out.println("Out");
     }
 
     /**
