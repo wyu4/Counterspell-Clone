@@ -23,6 +23,7 @@ public class AccurateButton extends JButton implements AccurateContainer, SuperC
     public AccurateButton(String name) {
         manager = new AccurateContainerManager(this, this);
         setName(name);
+        setLayout(null);
     }
 
     @Override
