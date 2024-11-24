@@ -66,4 +66,8 @@ public class Menu extends AccuratePanel {
     public JButton getCloseButton() {
         return closeButton;
     }
+
+    public JButton getPlayButton() {
+        return playButton;
+    }
 }
