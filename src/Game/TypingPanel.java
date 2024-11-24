@@ -18,6 +18,7 @@ public class TypingPanel extends AccuratePanel {
     private int wordCount;
     private int mistakes;
     private long startTime;
+    private Runnable onEmpty;
 
     public TypingPanel() {
         this("The quick brown fox jumps over the lazy dog.");
@@ -52,6 +53,10 @@ public class TypingPanel extends AccuratePanel {
         return prompt;
     }
 
+    public void onEmpty(Runnable task) {
+        onEmpty = task;
+    }
+
     public void resetStartTime() {
         startTime = System.currentTimeMillis();
     }
@@ -69,6 +74,9 @@ public class TypingPanel extends AccuratePanel {
                 wordCount ++;
             }
             displayedText = displayedText.substring(1);
+            if (displayedText.isEmpty()) {
+                onEmpty.run();
+            }
         } else {
             mistakes ++;
             textLabel.setForeground(new Color(255, 0, 0));
@@ -87,7 +95,7 @@ public class TypingPanel extends AccuratePanel {
         textLabel.setLocation(0, 0);
         textLabel.setSize(getSize());
         textLabel.setVerticalAlignment(SwingConstants.TOP);
-        float newFontSize = textLabel.getHeight() * 0.1f;
+        float newFontSize = textLabel.getHeight() * 0.15f;
         if (fontSize != newFontSize) {
             fontSize = newFontSize;
             textLabel.setFont(font.deriveFont(fontSize));

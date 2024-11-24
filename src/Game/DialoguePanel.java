@@ -28,7 +28,8 @@ public class DialoguePanel extends AccuratePanel {
 
         setBackground(new Color(0, 0, 0));
 
-        contentLabel.setAnchorPoint(0, 1f);
+        nameLabel.setAnchorPoint(0.5f, 0);
+        contentLabel.setAnchorPoint(0.5f, 1f);
 
         add(nameLabel);
         add(contentLabel);
@@ -43,16 +44,16 @@ public class DialoguePanel extends AccuratePanel {
     public void tick(float timeMod) {
         FloatCoordinate screenSize = getAccurateSize();
 
-        nameLabel.setLocation(0, 0);
-        nameLabel.setSize(screenSize.getX(), screenSize.getY()*0.2f);
+        nameLabel.setLocation(screenSize.getX()*0.5f, 0);
+        nameLabel.setSize(screenSize.getX() * 0.9f, screenSize.getY()*0.2f);
         float newNameFontSize = nameLabel.getHeight() * 0.9f;
         if (nameFontSize != newNameFontSize) {
             nameLabel.setFont(ResourcesManager.getAsFont(ResourceEnum.DroidSansMono_ttf).deriveFont(newNameFontSize));
             contentLabel.setFont(ResourcesManager.getAsFont(ResourceEnum.RobotoMono_ttf).deriveFont(newNameFontSize));
             nameFontSize = newNameFontSize;
         }
-        contentLabel.setLocation(0, screenSize.getY());
-        contentLabel.setSize(screenSize.getX(), screenSize.getY()*0.8f);
+        contentLabel.setLocation(screenSize.getX()*0.5f, screenSize.getY());
+        contentLabel.setSize(screenSize.getX() * 0.9f, screenSize.getY()*0.8f);
 
         nameLabel.tick(timeMod);
         contentLabel.tick(timeMod);

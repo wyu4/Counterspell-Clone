@@ -1,6 +1,6 @@
 package Game;
 
-import Game.ScenePresets.Scene1;
+import Game.ScenePresets.Tutorial;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
@@ -78,6 +78,12 @@ public class GameSession implements ActionListener, NativeKeyListener {
         }
     }
 
+    public void nativeKeyTyped(NativeKeyEvent nativeEvent) {
+        if (appState == AppState.CUTSCENE && currentScene != null) {
+            currentScene.processKeyType(nativeEvent.getKeyChar());
+        }
+    }
+
     /**
      * Stop the app.
      */
@@ -100,7 +106,9 @@ public class GameSession implements ActionListener, NativeKeyListener {
             float timeMod = delta / runtime.getDelay() / 1000f;
 
             mainFrame.setLocation(0, 0);
-            mainFrame.setSize((float) toolkit.getScreenSize().getWidth() * 0.5f, (float) toolkit.getScreenSize().getHeight() * 0.5f);
+            mainFrame.setSize((float) toolkit.getScreenSize().getWidth(), (float) toolkit.getScreenSize().getHeight());
+
+//            mainFrame.setSize((float) toolkit.getScreenSize().getWidth() * 0.5f, (float) toolkit.getScreenSize().getHeight() * 0.5f);
 //        mainFrame.setSize(new FloatCoordinate(MouseInfo.getPointerInfo().getLocation()).multiply(0.95f));
             mainFrame.tick(timeMod);
 
@@ -127,7 +135,7 @@ public class GameSession implements ActionListener, NativeKeyListener {
         } else if (e.getSource().equals(menu.getPlayButton())) {
             System.out.println("Play requested from menu.");
             menu.setVisible(false);
-            currentScene = new Scene1();
+            currentScene = new Tutorial();
             mainFrame.add(currentScene);
             mainFrame.revalidate();
             appState = AppState.CUTSCENE;
