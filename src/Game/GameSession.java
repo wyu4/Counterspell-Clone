@@ -107,23 +107,38 @@ public class GameSession implements ActionListener, NativeKeyListener {
     }
 
     private void playScene(Scene scene) {
-        System.out.println("Play requested from level select menu.");
+        if (scene == null) {
             menu.setVisible(false);
-            levelSelectionMenu.setVisible(false);
-            currentScene = scene;
-            mainFrame.add(currentScene);
-            mainFrame.revalidate();
-            appState = AppState.CUTSCENE;
+            levelSelectionMenu.setVisible(true);
+            currentScene.setVisible(false);
+            currentScene = null;
+            return;
+        }
+        System.out.println("Play requested.");
+        scene.onBack(() -> playScene(null));
+        menu.setVisible(false);
+        levelSelectionMenu.setVisible(false);
+        currentScene = scene;
+        mainFrame.add(currentScene);
+        mainFrame.revalidate();
+        appState = AppState.CUTSCENE;
     }
 
-    private void endCurrentScene() {
+    private void endCurrentScene(int index) {
         appState = AppState.MENU;
-        menu.setVisible(true);
+        menu.setVisible(false);
         currentScene.setVisible(false);
         currentScene.processInputs(false, false);
         mainFrame.remove(currentScene);
+        Scene next = sceneFromIndex(index+1);
+        if (next != null) {
+            playScene(next);
+            return;
+        }
+        menu.setVisible(false);
+        levelSelectionMenu.setVisible(true);
+        currentScene.setVisible(false);
         currentScene = null;
-        System.out.println("Returned to menu.");
     }
 
     @Override
@@ -184,12 +199,19 @@ public class GameSession implements ActionListener, NativeKeyListener {
             levelSelectionMenu.setVisible(false);
             System.out.println("Returned to menu.");
         } else if (e.getSource() instanceof JButton button && levelSelectionMenu.getLevelButtons().contains(button)) {
-            Scene scene = switch (levelSelectionMenu.getLevelButtons().indexOf(button)) {
-                case 1 -> new Scene1();
-                default -> new Tutorial();
-            };
-            scene.onEnd(this::endCurrentScene);
+            int sceneIndex = levelSelectionMenu.getLevelButtons().indexOf(button);
+            Scene scene = sceneFromIndex(sceneIndex);
+            scene.onEnd(() -> endCurrentScene(sceneIndex));
+            scene.onBack(() -> playScene(null));
             playScene(scene);
         }
+    }
+
+    private Scene sceneFromIndex(int index) {
+        return switch (index) {
+            case 0 -> new Tutorial();
+            case 1 -> new Scene1();
+            default -> null;
+        };
     }
 }

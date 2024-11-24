@@ -8,10 +8,7 @@ import ResourceClasses.ResourceEnum;
 import ResourceClasses.ResourcesManager;
 
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Tutorial extends Scene {
     private static final String G1 = "QUESTIONING1";
@@ -39,29 +36,30 @@ public class Tutorial extends Scene {
         );
 
         add(outro);
+        setDialoguePanelLocked(false);
 
-        super.addDialogue("???", "Welcome.");
-        super.addDialogue("???", "Commencing cloning protocol…");
-        super.addDialogue("???", "DATE: 21XX - 12 - 24");
-        super.addDialogue("???", "SUBJECT: ANNE");
-        super.addDialogue("???", "TEST #: 1056");
-        super.addDialogue("???", "Loading...");
-        super.addDialogue("???", "Complete.");
-        super.addDialogue("???", "Please answer the following questions to the best of your ability:");
-        super.addDialogue("???", "Question 1: ___________________________");
-        super.addDialogue("Anne", "", G1);
+        super.addDialogue("", "Welcome.");
+        super.addDialogue("", "Commencing cloning protocol…");
+        super.addDialogue("", "DATE: 21XX - 12 - 24");
+        super.addDialogue("", "SUBJECT: ANNE");
+        super.addDialogue("", "TEST #: 1056");
+        super.addDialogue("", "Loading...");
+        super.addDialogue("", "Complete.");
+        super.addDialogue("", "Please answer the following questions to the best of your ability:");
+        super.addDialogue("", "Question 1: ___________________________");
+        super.addDialogue("", "", G1);
 //        super.addDialogue("You", PROMPT_1);
-        super.addDialogue("???", "Question 2: ___________________________");
-        super.addDialogue("Anne", "", G2);
+        super.addDialogue("", "Question 2: ___________________________");
+        super.addDialogue("", "", G2);
 //        super.addDialogue("You", PROMPT_2);
-        super.addDialogue("???", "Final question: ___________________________");
-        super.addDialogue("Anne", "", G3);
+        super.addDialogue("", "Final question: ___________________________");
+        super.addDialogue("", "", G3);
 //        super.addDialogue("You", PROMPT_3);
-        super.addDialogue("???", "Loading...");
-        super.addDialogue("???", "Data Successfully Collected!");
-        super.addDialogue("???", "Commencing Clone Generation Protocol…");
-        super.addDialogue("???", "Reducing clone statistics…");
-        super.addDialogue("???", "Generating body…");
+        super.addDialogue("", "Loading...");
+        super.addDialogue("", "Data Successfully Collected!");
+        super.addDialogue("", "Commencing Clone Generation Protocol…");
+        super.addDialogue("", "Reducing clone statistics…");
+        super.addDialogue("", "Generating body…");
         super.addDialogue("", "", END_CUTSCENE);
         super.addDialogue("", "", END);
 
@@ -77,6 +75,8 @@ public class Tutorial extends Scene {
         outro.setLocation(0, 0);
         outro.setSize(getAccurateSize());
         outro.tick(timeMod);
+
+        setDialoguePanelLocation(getAccurateSize().multiply(0.5f));
 
         String cue = getCurrentCue();
         if (cue == null) {
@@ -195,16 +195,16 @@ class FadeToWhiteTitleScene extends AccuratePanel {
         System.out.println(oldColor);
         setBackground(
                 new Color(
-                       Math.clamp((oldColor.getRed()/255f) + (0.00015f*timeMod), 0, 1f),
-                       Math.clamp((oldColor.getGreen()/255f) + (0.00015f*timeMod), 0, 1f),
-                       Math.clamp((oldColor.getBlue()/255f) + (0.00015f*timeMod), 0, 1f)
+                       Math.clamp((oldColor.getRed()/255f) + (0.0002f*timeMod), 0, 1f),
+                       Math.clamp((oldColor.getGreen()/255f) + (0.0002f*timeMod), 0, 1f),
+                       Math.clamp((oldColor.getBlue()/255f) + (0.0002f*timeMod), 0, 1f)
                 )
         );
         if (oldColor.getRed() >= 255 && oldColor.getGreen() >= 255 && oldColor.getBlue() >= 255) {
             if (stallStart == null) {
                 stallStart = System.currentTimeMillis();
             } else {
-                if (System.currentTimeMillis() - stallStart >= 2000) {
+                if (System.currentTimeMillis() - stallStart >= 4000) {
                     triggered = false;
                     onEnd.run();
                 }

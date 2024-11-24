@@ -3,6 +3,8 @@ package Game;
 import DataTypes.FloatCoordinate;
 import GUIClasses.AccurateUIComponents.AccurateButton;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
+import ResourceClasses.ResourceEnum;
+import ResourceClasses.ResourcesManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ public class LevelSelectionMenu extends AccuratePanel {
     private final List<AccurateButton> buttons;
     private final AccurateButton backButton;
     private final AccuratePanel buttonsPanel;
+    private float buttonFontSize;
 
     public LevelSelectionMenu() {
         super("LevelSelectionMenu");
@@ -37,9 +40,10 @@ public class LevelSelectionMenu extends AccuratePanel {
         for (int i = 0; i < 8; i++) {
             System.out.println(i);
             AccurateButton select = new AccurateButton("LevelSelect" + i);
-            select.setBackground(new Color(255, 255, 255));
-            select.setForeground(new Color(0, 0, 0));
+            select.setBackground(new Color(255, 255, 255, 0));
+            select.setForeground(new Color(255, 255, 255));
             select.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            select.setContentAreaFilled(false);
             if (i == 0) {
                 select.setText("Tutorial");
             } else {
@@ -70,6 +74,14 @@ public class LevelSelectionMenu extends AccuratePanel {
 
         buttonsPanel.setLocation(screenSize.multiply(0.5f));
         buttonsPanel.setSize(screenSize.multiply(0.7f));
+
+        float newButtonFontSize = buttonsPanel.getHeight()*0.05f;
+        if (newButtonFontSize != buttonFontSize) {
+            buttonFontSize = newButtonFontSize;
+            for (JButton button : buttons) {
+                button.setFont(ResourcesManager.getAsFont(ResourceEnum.DroidSansMono_ttf).deriveFont(newButtonFontSize));
+            }
+        }
 
         buttonsPanel.revalidate();
     }

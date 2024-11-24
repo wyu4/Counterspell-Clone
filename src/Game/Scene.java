@@ -5,7 +5,6 @@ import GUIClasses.AccurateUIComponents.AccurateButton;
 import GUIClasses.AccurateUIComponents.AccurateImageIcon;
 import GUIClasses.AccurateUIComponents.AccurateLabel;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
-import GUIClasses.AnimatedTextLabel;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -14,20 +13,19 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class Scene extends AccuratePanel {
     private final List<String[]> dialogues;
     private final HashMap<String, AccurateImageIcon> characters;
-    private volatile boolean nextRequested, processDialogues, processTyping;
+    private volatile boolean nextRequested, processDialogues, processTyping, dialoguePanelLocked;
     private final DialoguePanel dialoguePanel;
     private final TypingPanel typingPanel;
     private final AccuratePanel characterPanel;
     private final AccurateLabel backgroundLabel;
     private final AccurateButton backButton;
-    private Runnable onEnd;
+    private Runnable onEnd, onBack;
     private String currentCue;
 
     public Scene() {
@@ -42,21 +40,25 @@ public class Scene extends AccuratePanel {
         nextRequested = false;
         processDialogues = true;
         processTyping = false;
+        dialoguePanelLocked = true;
 
         dialoguePanel.setAnchorPoint(0.5f, 0.9f);
         characterPanel.setBackground(new Color(0, 0, 0, 0));
 
-        typingPanel.setAnchorPoint(0.5f, 1f);
+        typingPanel.setAnchorPoint(0.5f, 0.9f);
         typingPanel.setVisible(false);
 
-        backButton.setAnchorPoint(0.1f, 0.1f);
-        backButton.setBackground(new Color(255, 255, 255));
+        backButton.setAnchorPoint(0.02f, 0.02f);
+        backButton.setBackground(new Color(166, 166, 166));
 
         add(backButton);
         add(dialoguePanel);
         add(typingPanel);
         add(characterPanel);
-        add(backgroundLabel);
+    }
+
+    public void setCharacterBackground(Color bg) {
+        characterPanel.setBackground(bg);
     }
 
     public JButton getBackButton() {
@@ -88,6 +90,10 @@ public class Scene extends AccuratePanel {
         if (!backgroundLabel.getIcon().equals(bg)) {
             backgroundLabel.setIcon(bg);
         }
+    }
+
+    public void setDialoguePanelLocation(FloatCoordinate l) {
+        dialoguePanel.setLocation(l);
     }
 
     public Icon getBackgroundImage() {
@@ -134,6 +140,10 @@ public class Scene extends AccuratePanel {
         characters.put(speaker, character);
     }
 
+    public void setDialoguePanelLocked(boolean state) {
+        dialoguePanelLocked = state;
+    }
+
     public void setDialoguePanelShowing(boolean state) {
         dialoguePanel.setVisible(state);
     }
@@ -148,6 +158,9 @@ public class Scene extends AccuratePanel {
 
     public void onEnd(Runnable task) {
         this.onEnd = task;
+    }
+
+    public void onBack(Runnable task) {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -188,15 +201,17 @@ public class Scene extends AccuratePanel {
         characterPanel.setLocation(0, 0);
         characterPanel.setSize(screenSize);
 
-        dialoguePanel.setLocation(screenSize.getX() * 0.5f, screenSize.getY() * 0.9f);
+        if (dialoguePanelLocked) {
+            dialoguePanel.setLocation(screenSize.getX() * 0.5f, screenSize.getY() * 0.9f);
+        }
         dialoguePanel.setSize(screenSize.getX() * 0.8f, screenSize.getY() * 0.25f);
         dialoguePanel.tick(timeMod);
 
-        typingPanel.setLocation(screenSize.getX() * 0.5f, screenSize.getY());
-        typingPanel.setSize(screenSize.getX(), screenSize.getY() * 0.25f);
+        typingPanel.setLocation(screenSize.getX() * 0.5f, screenSize.getY() * 0.9f);
+        typingPanel.setSize(dialoguePanel.getAccurateSize());
         typingPanel.tick(timeMod);
 
-        backButton.setLocation(screenSize.getX() * 0.1f, screenSize.getY() * 0.1f);
+        backButton.setLocation(screenSize.getX() * 0.02f, screenSize.getY() * 0.02f);
         backButton.setSize(screenSize.getX() * 0.05f,screenSize.getY() * 0.05f);
     }
 }
