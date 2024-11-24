@@ -1,19 +1,21 @@
 package Game;
 
-import DataTypes.FloatCoordinate;
+import Game.ScenePresets.Scene1;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.Timer;
 import java.awt.Dimension;
-import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class App implements ActionListener {
+public class GameSession implements ActionListener, NativeKeyListener {
     enum AppState {
-        SPLASH_SCREEN
+        SPLASH_SCREEN,
+        CUTSCENE
     }
 
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -21,6 +23,7 @@ public class App implements ActionListener {
     private final MainFrame mainFrame;
     private final SplashScreen splashScreen;
     private final Menu menu;
+    private Scene currentScene;
     private final Timer runtime;
 
     private Long lastTick;
@@ -29,7 +32,7 @@ public class App implements ActionListener {
     /**
      * Start a new session
      */
-    public App() {
+    public GameSession() {
         appState = AppState.SPLASH_SCREEN;
         mainFrame = new MainFrame();
         splashScreen = new SplashScreen();
@@ -47,6 +50,7 @@ public class App implements ActionListener {
             System.err.println("There was a problem registering the native hook: \n" + ex.getMessage());
             System.exit(1);
         }
+        GlobalScreen.addNativeKeyListener(this);
 
         menu.setVisible(false);
 
@@ -55,6 +59,7 @@ public class App implements ActionListener {
         mainFrame.setVisible(true);
 
         menu.getCloseButton().addActionListener(this);
+        menu.getPlayButton().addActionListener(this);
 
         runtime.start();
         splashScreen.setShouldShow(true);
@@ -65,6 +70,12 @@ public class App implements ActionListener {
 
         Thread.sleep(2000);
         menu.setVisible(true);
+    }
+
+    public void nativeKeyPressed(NativeKeyEvent nativeEvent) {
+        if (appState == AppState.CUTSCENE && currentScene != null) {
+            currentScene.requestNextDialogue();
+        }
     }
 
     /**
@@ -89,7 +100,7 @@ public class App implements ActionListener {
             float timeMod = delta / runtime.getDelay() / 1000f;
 
             mainFrame.setLocation(0, 0);
-            mainFrame.setSize(toolkit.getScreenSize());
+            mainFrame.setSize((float) toolkit.getScreenSize().getWidth() * 0.5f, (float) toolkit.getScreenSize().getHeight() * 0.5f);
 //        mainFrame.setSize(new FloatCoordinate(MouseInfo.getPointerInfo().getLocation()).multiply(0.95f));
             mainFrame.tick(timeMod);
 
@@ -103,9 +114,23 @@ public class App implements ActionListener {
             menu.setSize(screenSize);
             menu.tick(timeMod);
 
+            if (currentScene != null) {
+                currentScene.setLocation(0, 0);
+                currentScene.setSize(screenSize);
+                currentScene.tick(timeMod);
+            }
+
             mainFrame.repaint();
         } else if (e.getSource().equals(menu.getCloseButton())) {
+            System.out.println("Close requested from menu");
             endApp();
+        } else if (e.getSource().equals(menu.getPlayButton())) {
+            System.out.println("Play requested from menu.");
+            menu.setVisible(false);
+            currentScene = new Scene1();
+            mainFrame.add(currentScene);
+            mainFrame.revalidate();
+            appState = AppState.CUTSCENE;
         }
     }
 }

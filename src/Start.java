@@ -1,10 +1,8 @@
-import Game.App;
-import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
+import Game.GameSession;
 
 public class Start {
     public static void main(String[] args) throws InterruptedException {
-        App session = new App();
+        GameSession session = new GameSession();
         session.startApp();
     }
 }

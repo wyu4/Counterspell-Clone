@@ -35,15 +35,14 @@ public class DialoguePanel extends AccuratePanel {
         add(contentLabel);
     }
 
-    public void setData(String name, String data) {
+    public void setData(String name, String content) {
         nameLabel.setGoalText(name);
-        contentLabel.setGoalText(data);
+        contentLabel.setGoalText(content);
+        System.out.println("Set dialogue data to " + name + " - " + content);
     }
 
     public void tick(float timeMod) {
         FloatCoordinate screenSize = getAccurateSize();
-        nameLabel.tick(timeMod);
-        contentLabel.tick(timeMod);
 
         nameLabel.setLocation(0, 0);
         nameLabel.setSize(screenSize.getX(), screenSize.getY()*0.2f);
@@ -55,5 +54,8 @@ public class DialoguePanel extends AccuratePanel {
         }
         contentLabel.setLocation(0, screenSize.getY());
         contentLabel.setSize(screenSize.getX(), screenSize.getY()*0.8f);
+
+        nameLabel.tick(timeMod);
+        contentLabel.tick(timeMod);
     }
 }
