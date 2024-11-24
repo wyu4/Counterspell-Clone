@@ -3,9 +3,12 @@ package Game;
 import DataTypes.FloatCoordinate;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
 import GUIClasses.AnimatedTextLabel;
+import ResourceClasses.ResourceEnum;
+import ResourceClasses.ResourcesManager;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Font;
 
 public class DialoguePanel extends AccuratePanel {
     private final AnimatedTextLabel nameLabel, contentLabel;
@@ -46,8 +49,8 @@ public class DialoguePanel extends AccuratePanel {
         nameLabel.setSize(screenSize.getX(), screenSize.getY()*0.2f);
         float newNameFontSize = nameLabel.getHeight() * 0.9f;
         if (nameFontSize != newNameFontSize) {
-            nameLabel.setFont(nameLabel.getFont().deriveFont(newNameFontSize));
-            contentLabel.setFont(contentLabel.getFont().deriveFont(newNameFontSize));
+            nameLabel.setFont(ResourcesManager.getAsFont(ResourceEnum.DroidSansMono_ttf).deriveFont(newNameFontSize));
+            contentLabel.setFont(ResourcesManager.getAsFont(ResourceEnum.RobotoMono_ttf).deriveFont(newNameFontSize));
             nameFontSize = newNameFontSize;
         }
         contentLabel.setLocation(0, screenSize.getY());
