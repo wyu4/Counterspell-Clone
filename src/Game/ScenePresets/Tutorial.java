@@ -6,6 +6,7 @@ public class Tutorial extends Scene {
     private static final String G1 = "QUESTIONING1";
     private static final String G2 = "QUESTIONING2";
     private static final String G3 = "QUESTIONING3";
+    private static final String END_CUTSCENE = "END_CUTSCENE";
     private static final String END = "END";
 
     private static final String PROMPT_1 = "Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.";
@@ -27,20 +28,21 @@ public class Tutorial extends Scene {
         super.addDialogue("???", "Complete.");
         super.addDialogue("???", "Please answer the following questions to the best of your ability:");
         super.addDialogue("???", "Question 1: ___________________________");
-        super.addDialogue("", "", G1);
+        super.addDialogue("Anne", "", G1);
 //        super.addDialogue("You", PROMPT_1);
         super.addDialogue("???", "Question 2: ___________________________");
-        super.addDialogue("???", "", G2);
+        super.addDialogue("Anne", "", G2);
 //        super.addDialogue("You", PROMPT_2);
         super.addDialogue("???", "Final question: ___________________________");
-        super.addDialogue("???", "", G3);
+        super.addDialogue("Anne", "", G3);
 //        super.addDialogue("You", PROMPT_3);
         super.addDialogue("???", "Loading...");
         super.addDialogue("???", "Data Successfully Collected!");
         super.addDialogue("???", "Commencing Clone Generation Protocol…");
         super.addDialogue("???", "Reducing clone statistics…");
         super.addDialogue("???", "Generating body…");
-        super.addDialogue("???", "Generating body…", END);
+        super.addDialogue("", "", END_CUTSCENE);
+        super.addDialogue("", "", END);
 
         processInputs(true, false);
         requestNextDialogue();
@@ -108,6 +110,9 @@ public class Tutorial extends Scene {
                         }
                 );
                 break;
+            }
+            case END_CUTSCENE: {
+
             }
             case END: {
                 processInputs(false, false);
