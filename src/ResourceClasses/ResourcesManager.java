@@ -65,6 +65,7 @@ public class ResourcesManager {
         return new File(switch (e) {
             case Cababas_png -> RESOURCE_DIR + "\\Cababas.png";
             case Counterspell_png -> RESOURCE_DIR + "\\CounterspellLogo.png";
+            case DroidSansMono_ttf -> RESOURCE_DIR + "\\DroidSansMono.ttf";
         });
     }
 
