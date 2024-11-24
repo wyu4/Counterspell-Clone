@@ -4,9 +4,6 @@ import GUIClasses.AccurateUIComponents.AccurateLabel;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
 import ResourceClasses.ResourceEnum;
 import ResourceClasses.ResourcesManager;
-import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -15,10 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TypingPanel extends AccuratePanel {
-    private final List<Integer> pressedChars;
     private final AccurateLabel textLabel;
     private String prompt;
-    private List<Integer> characterSequence;
+    private String displayedText;
     private Font font;
     private float fontSize;
 
@@ -28,36 +24,42 @@ public class TypingPanel extends AccuratePanel {
 
     public TypingPanel(String message) {
         super("TypingPanel");
-        pressedChars = new ArrayList<>();
         textLabel = new AccurateLabel("Prompt");
         prompt = "";
+        displayedText = prompt;
         font = ResourcesManager.getAsFont(ResourceEnum.DroidSansMono_ttf);
         fontSize = 1;
-        characterSequence = new ArrayList<>();
         setBackground(new Color(45, 45, 45));
-        textLabel.setForeground(new Color(255, 255, 255));
         setPrompt(message);
+
+        textLabel.setForeground(new Color(255, 255, 255));
+        textLabel.setFont(font);
+        textLabel.setWrapped(true);
+
         add(textLabel);
     }
 
     public void setPrompt(String prompt) {
         this.prompt = prompt;
-        textLabel.setText("<html>" + prompt + "</html>");
+        setText(prompt);
     }
 
     public String getPrompt() {
         return prompt;
     }
 
-    public void processKeyPress(int keyCode) {
-        if (!pressedChars.contains((Integer) keyCode)) {
-            pressedChars.add(keyCode);
-            System.out.println(keyCode);
-        }
+    private void setText(String text) {
+        displayedText = text;
     }
 
-    public void processKeyRelease(int keycode) {
-        pressedChars.remove((Integer) keycode);
+    public void processKeyType(char key) {
+        if (displayedText.isEmpty()) {
+            return;
+        }
+        if (displayedText.charAt(0) == key) {
+            displayedText = displayedText.substring(1);
+            System.out.println("Got " + key);
+        }
     }
 
     public void tick(float timeMod) {
@@ -69,5 +71,6 @@ public class TypingPanel extends AccuratePanel {
             fontSize = newFontSize;
             textLabel.setFont(font.deriveFont(fontSize));
         }
+        textLabel.setText(displayedText);
     }
 }

@@ -4,5 +4,6 @@ package ResourceClasses;
 public enum ResourceEnum {
     Cababas_png,
     Counterspell_png,
-    DroidSansMono_ttf
+    DroidSansMono_ttf,
+    RobotoMono_ttf
 }

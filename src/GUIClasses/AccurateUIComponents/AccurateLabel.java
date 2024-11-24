@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class AccurateLabel extends JLabel implements AccurateContainer, SuperContainerMethods {
     private final AccurateContainerManager manager;
+    private boolean wrap;
 
     /**
      * Create a new AccuratePanel object.
@@ -25,6 +26,37 @@ public class AccurateLabel extends JLabel implements AccurateContainer, SuperCon
     public AccurateLabel(String name) {
         manager = new AccurateContainerManager(this, this);
         setName(name);
+        wrap = false;
+    }
+
+    public void setWrapped(boolean wrap) {
+        this.wrap = wrap;
+    }
+
+    public void setText(String text) {
+        if (wrap) {
+            text = wrapString(text, getFontMetrics(getFont()), getWidth());
+        }
+        super.setText(text);
+    }
+
+    public static String wrapString(String text, FontMetrics metrics, int maxWidth) {
+        String wrappedText = "";
+        String[] words = text.split(" ");
+        int lineWidth = 0;
+
+        for (String word : words) {
+            int wordWidth = metrics.stringWidth(word + " ");
+            if (lineWidth + wordWidth > maxWidth) {
+                // Start a new line if adding the word exceeds max width
+                wrappedText += "\n";
+                lineWidth = 0;
+            }
+            wrappedText += word + " ";
+            lineWidth += wordWidth;
+        }
+
+        return "<html><pre>" + wrappedText + "</pre></html>";
     }
 
     @Override
