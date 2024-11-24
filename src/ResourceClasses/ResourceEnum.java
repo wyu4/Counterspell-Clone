@@ -6,5 +6,7 @@ public enum ResourceEnum {
     Counterspell_png,
     DroidSansMono_ttf,
     RobotoMono_ttf,
-    BungeeSpice_ttf
+    BungeeSpice_ttf,
+    Anne_Sprite_png,
+    Clone_Sprite_png
 }
