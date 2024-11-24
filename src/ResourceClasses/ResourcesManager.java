@@ -68,6 +68,8 @@ public class ResourcesManager {
             case DroidSansMono_ttf -> RESOURCE_DIR + "\\DroidSansMono.ttf";
             case RobotoMono_ttf -> RESOURCE_DIR + "\\RobotoMono-VariableFont_wght.ttf";
             case BungeeSpice_ttf -> RESOURCE_DIR + "\\BungeeSpice-Regular.ttf";
+            case Anne_Sprite_png -> RESOURCE_DIR + "\\Anne_Sprite.png";
+            case Clone_Sprite_png -> RESOURCE_DIR + "\\Clone_Sprite.png";
         });
     }
 
