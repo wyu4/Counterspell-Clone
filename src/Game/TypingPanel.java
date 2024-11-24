@@ -52,6 +52,10 @@ public class TypingPanel extends AccuratePanel {
         return prompt;
     }
 
+    public void resetStartTime() {
+        startTime = System.currentTimeMillis();
+    }
+
     private void setText(String text) {
         displayedText = text;
     }
