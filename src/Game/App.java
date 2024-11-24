@@ -54,6 +54,8 @@ public class App implements ActionListener {
         mainFrame.add(menu);
         mainFrame.setVisible(true);
 
+        menu.getCloseButton().addActionListener(this);
+
         runtime.start();
         splashScreen.setShouldShow(true);
 
@@ -77,28 +79,33 @@ public class App implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (lastTick == null) {
-            lastTick = System.currentTimeMillis();
-            return;
+        if (e.getSource().equals(runtime)) {
+            if (lastTick == null) {
+                lastTick = System.currentTimeMillis();
+                return;
+            }
+            long currentTime = System.currentTimeMillis();
+            float delta = currentTime - lastTick;
+            float timeMod = delta / runtime.getDelay() / 1000f;
+
+            mainFrame.setLocation(0, 0);
+            mainFrame.setSize(toolkit.getScreenSize());
+//        mainFrame.setSize(new FloatCoordinate(MouseInfo.getPointerInfo().getLocation()).multiply(0.95f));
+            mainFrame.tick(timeMod);
+
+            Dimension screenSize = mainFrame.getSize();
+
+            splashScreen.setLocation(0, 0);
+            splashScreen.setSize(screenSize);
+            splashScreen.tick(timeMod);
+
+            menu.setLocation(0, 0);
+            menu.setSize(screenSize);
+            menu.tick(timeMod);
+
+            mainFrame.repaint();
+        } else if (e.getSource().equals(menu.getCloseButton())) {
+            endApp();
         }
-        long currentTime = System.currentTimeMillis();
-        float delta = currentTime - lastTick;
-        float timeMod = delta / runtime.getDelay() / 1000f;
-
-        mainFrame.setLocation(0, 0);
-        mainFrame.setSize(new FloatCoordinate(MouseInfo.getPointerInfo().getLocation()).multiply(0.95f));
-        mainFrame.tick(timeMod);
-
-        Dimension screenSize = mainFrame.getSize();
-
-        splashScreen.setLocation(0, 0);
-        splashScreen.setSize(screenSize);
-        splashScreen.tick(timeMod);
-
-        menu.setLocation(0, 0);
-        menu.setSize(screenSize);
-        menu.tick(timeMod);
-
-        mainFrame.repaint();
     }
 }
