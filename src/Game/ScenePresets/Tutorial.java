@@ -20,9 +20,9 @@ public class Tutorial extends Scene {
     private static final String END_CUTSCENE = "END_CUTSCENE";
     private static final String END = "END";
 
-    private static final String PROMPT_1 = "hi";//"Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.";
-    private static final String PROMPT_2 = "hi";//"The human body maintains a stable internal temperature (~37C) through homeostasis, even in changing external conditions.";
-    private static final String PROMPT_3 = "hi";//"CRISPR-Cas9 is a revolutionary gene-editing tool adapted from the immune system of prokaryotes. It enables precise modifications to DNA sequences.";
+    private static final String PROMPT_1 = "Adaptive radiation is the evolutionary process through which a single ancestral species diversifies into multiple distinct species, each adapted to exploit different ecological niches. This occurs rapidly, often in response to an environment with diverse resources or a lack of competition.";
+    private static final String PROMPT_2 = "The human body maintains a stable internal temperature (~37C) through homeostasis, even in changing external conditions.";
+    private static final String PROMPT_3 = "CRISPR-Cas9 is a revolutionary gene-editing tool adapted from the immune system of prokaryotes. It enables precise modifications to DNA sequences.";
 
     private String currentPlaying;
     private final FadeToWhiteTitleScene outro;
@@ -67,7 +67,7 @@ public class Tutorial extends Scene {
 
         processInputs(true, false);
         requestNextDialogue();
-        System.out.println("Scene1 created");
+        System.out.println("Tutorial created");
     }
 
     @Override

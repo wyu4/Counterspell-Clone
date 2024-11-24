@@ -1,5 +1,6 @@
 package Game;
 
+import Game.ScenePresets.Scene1;
 import Game.ScenePresets.Tutorial;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
@@ -184,8 +185,7 @@ public class GameSession implements ActionListener, NativeKeyListener {
             System.out.println("Returned to menu.");
         } else if (e.getSource() instanceof JButton button && levelSelectionMenu.getLevelButtons().contains(button)) {
             Scene scene = switch (levelSelectionMenu.getLevelButtons().indexOf(button)) {
-                case 0 -> new Tutorial();
-
+                case 1 -> new Scene1();
                 default -> new Tutorial();
             };
             scene.onEnd(this::endCurrentScene);

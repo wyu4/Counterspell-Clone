@@ -75,6 +75,10 @@ public class Scene extends AccuratePanel {
         characterPanel.add(c);
     }
 
+    public FloatCoordinate getCharacterPanelSize() {
+        return characterPanel.getAccurateSize();
+    }
+
     public void setTypePrompt(String prompt) {
         typingPanel.setPrompt(prompt);
         typingPanel.resetStartTime();
@@ -167,9 +171,9 @@ public class Scene extends AccuratePanel {
                 dialoguePanel.setData(data[0], data[1]);
                 for (String characterName : characters.keySet()) {
                     if (characterName.equals(data[0])) {
-                        characters.get(characterName).setAlpha(0.5f);
-                    } else {
                         characters.get(characterName).setAlpha(1f);
+                    } else {
+                        characters.get(characterName).setAlpha(0.25f);
                     }
                 }
                 if (data.length >= 3) {
