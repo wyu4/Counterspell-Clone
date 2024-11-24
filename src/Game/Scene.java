@@ -11,6 +11,8 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ public class Scene extends AccuratePanel {
     private final AccuratePanel characterPanel;
     private final AccurateLabel backgroundLabel;
     private final AccurateButton backButton;
+    private Runnable onEnd;
     private String currentCue;
 
     public Scene() {
@@ -137,6 +140,22 @@ public class Scene extends AccuratePanel {
 
     public void setTypingPanelOnEmpty(Runnable task) {
         typingPanel.onEmpty(task);
+    }
+
+    public void onEnd(Runnable task) {
+        this.onEnd = task;
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                task.run();
+            }
+        });
+    }
+
+    protected void runOnEnd() {
+        if (onEnd != null) {
+            onEnd.run();
+        }
     }
 
     public void tick(float timeMod) {

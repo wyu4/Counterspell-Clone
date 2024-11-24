@@ -6,6 +6,7 @@ public class Tutorial extends Scene {
     private static final String G1 = "QUESTIONING1";
     private static final String G2 = "QUESTIONING2";
     private static final String G3 = "QUESTIONING3";
+    private static final String END = "END";
     private String currentPlaying;
 
     public Tutorial() {
@@ -31,7 +32,7 @@ public class Tutorial extends Scene {
         super.addDialogue("???", "Commencing Clone Generation Protocol…");
         super.addDialogue("???", "Reducing clone statistics…");
         super.addDialogue("???", "Generating body…");
-
+        super.addDialogue("???", "Generating body…", END);
 
         processInputs(true, false);
         requestNextDialogue();
@@ -99,6 +100,10 @@ public class Tutorial extends Scene {
                         }
                 );
                 break;
+            }
+            case END: {
+                processInputs(false, false);
+                runOnEnd();
             }
         }
     }

@@ -1,5 +1,6 @@
 package Game;
 
+import DataTypes.FloatCoordinate;
 import GUIClasses.AccurateUIComponents.AccurateLabel;
 import GUIClasses.AccurateUIComponents.AccuratePanel;
 import ResourceClasses.ResourceEnum;
@@ -39,6 +40,7 @@ public class TypingPanel extends AccuratePanel {
 
         textLabel.setForeground(new Color(255, 255, 255));
         textLabel.setFont(font);
+        textLabel.setAnchorPoint(0.5f, 0);
         textLabel.setWrapped(true);
 
         add(textLabel);
@@ -92,8 +94,9 @@ public class TypingPanel extends AccuratePanel {
     }
 
     public void tick(float timeMod) {
-        textLabel.setLocation(0, 0);
-        textLabel.setSize(getSize());
+        FloatCoordinate screenSize = getAccurateSize();
+        textLabel.setLocation(screenSize.getX()*0.5f, 0);
+        textLabel.setSize(screenSize.getX()*0.9f,screenSize.getY());
         textLabel.setVerticalAlignment(SwingConstants.TOP);
         float newFontSize = textLabel.getHeight() * 0.15f;
         if (fontSize != newFontSize) {
@@ -103,9 +106,9 @@ public class TypingPanel extends AccuratePanel {
         Color oldFontColor = textLabel.getForeground();
         textLabel.setForeground(
                 new Color(
-                        (int) Math.clamp(oldFontColor.getRed() + 5*timeMod,0,255),
-                        (int) Math.clamp(oldFontColor.getGreen() + 5*timeMod,0,255),
-                        (int) Math.clamp(oldFontColor.getBlue() + 5*timeMod,0,255)
+                        (int) Math.clamp(oldFontColor.getRed() + 2*timeMod,0,255),
+                        (int) Math.clamp(oldFontColor.getGreen() + 2*timeMod,0,255),
+                        (int) Math.clamp(oldFontColor.getBlue() + 2*timeMod,0,255)
                 )
         );
         textLabel.setText(displayedText);
