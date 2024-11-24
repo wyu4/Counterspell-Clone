@@ -35,9 +35,8 @@ public class AnimatedTextLabel extends AccurateLabel {
         if (goalText == null || displayedText == null || currentAttemptedText == null) {
             return;
         }
-        int speed = Math.round(1/timeMod);
         if (!goalText.startsWith(currentAttemptedText) && !displayedText.isEmpty()) {
-            setText(displayedText.substring(0, displayedText.length() - speed));
+            setText(displayedText.substring(0, displayedText.length() - 1));
             return;
         }
         currentAttemptedText = goalText;

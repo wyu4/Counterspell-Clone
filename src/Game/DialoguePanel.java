@@ -12,12 +12,11 @@ import java.awt.Font;
 
 public class DialoguePanel extends AccuratePanel {
     private final AnimatedTextLabel nameLabel, contentLabel;
-    private float nameFontSize, contentFontSize;
+    private float nameFontSize;
 
     public DialoguePanel() {
         super("DialoguePanel");
         nameFontSize = 0;
-        contentFontSize = 0;
 
         nameLabel = new AnimatedTextLabel("Name");
         contentLabel = new AnimatedTextLabel("Content");
